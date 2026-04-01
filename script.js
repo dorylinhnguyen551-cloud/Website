@@ -25,6 +25,15 @@ document.addEventListener('DOMContentLoaded',function(){
   if(nextBtn) nextBtn.addEventListener('click',function(){ current=(current+1)%slides.length; show(current); });
   if(prevBtn) prevBtn.addEventListener('click',function(){ current=(current-1+slides.length)%slides.length; show(current); });
 
+  // Image fallback for missing files (ensures pictures appear everywhere)
+  document.querySelectorAll('img[data-fallback]').forEach(function(img){
+    img.addEventListener('error',function(){
+      if(img.dataset.fallbackLoaded) return;
+      img.dataset.fallbackLoaded='true';
+      img.src=img.dataset.fallback;
+    });
+  });
+
   // Locations - simple nearby suggestion
   var locations=[
     {name:'Downtown',lat:37.7749,lng:-122.4194,address:'123 Main St, Cityville',hours:'9:00 AM — 9:00 PM'},
